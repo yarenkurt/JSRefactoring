@@ -1,41 +1,30 @@
-import { BaseLogger, ElasticLogger, MongoLogger } from "../crossCuttingConcerns/logging/logger.js"
-import Customer from "../models/customer.js"
-import User from "../models/user.js"
+import { BaseLogger, ElsaticLogger, MongoLogger } from "../crossCuttingConcerns/logging/logger.js";
+import Customer from "../models/customer.js";
+import Employee from "../models/employee.js";
+import CustomerService from "../services/customerService.js";
+import EmployeeService from "../services/employeeService.js";
 import UserService from "../services/userService.js"
 
-console.log("User component yüklendi")
+console.log("User component loaded")
 
-let logger1 = new MongoLogger()
-let userService = new UserService(logger1)
-
-let user1 = new User(1,"Engin","Demiroğ","Ankara")
-let user2 = new User(2,"Baran","Gökçekli","Muğla")
-userService.add(user1)
-userService.add(user2)
-
-//console.log(userService.list())
-//console.log(userService.getById(2))
+let logger1 = new MongoLogger();
+let userService = new UserService(logger1);
+let customerService = new CustomerService(logger1);
+let employeeService = new EmployeeService(logger1);
 
 
-
-
-let customer = {id:1, firstName:"Engin"}
-
-//prototyping
-customer.lastName = "Demiroğ"
-
-console.log(customer.lastName)
-
-console.log("--------------------------")
-userService.load()
-
-
-let customerToAdd = new Customer(1,"Seda","Yılmaz","Ankara","fdgdfg");
+let customerToAdd=new Customer(10,"Ayşe","Fatma","Aydın",30,"1234453");
 customerToAdd.type = "customer"
+userService.addUser(customerToAdd)
+console.log(userService.users)
 
-userService.add(customerToAdd)
-console.log(userService.customers)
-console.log(userService.employees)
+let employeeToAdd=new Employee(11,"Engin","Demiroğ","Ankara",25,20000);
+employeeToAdd.type = "employee"
+userService.addUser(employeeToAdd)
 console.log(userService.errors)
-console.log(userService.getCustomersSorted())
-//22.00 Dersteyiz
+
+console.log(userService.users)
+console.log(userService.getUserById(11))
+
+console.log(customerService.getAllCustomer())
+console.log(employeeService.getAllEmployee())
